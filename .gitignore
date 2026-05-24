@@ -1,0 +1,28 @@
+target/
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+
+# Arquivos gerados pelo Maven/Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs e arquivos temporarios
+*.log
+*.tmp
+*.bak
+
+# Configuracoes locais
+.env
+*.local
+
+# Smart Tomcat / execucao local
+.smarttomcat/
+
+# Sistema operacional
+Thumbs.db
+Desktop.ini

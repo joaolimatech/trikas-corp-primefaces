@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="primefaces">
+<h:head>
+    <title>Login</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #eef2f6;
+            color: #1f2937;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            box-sizing: border-box;
+        }
+
+        .login-box {
+            width: min(420px, 100%);
+            background: #ffffff;
+            border: 1px solid #d9e1ea;
+            border-radius: 8px;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+            padding: 28px;
+            box-sizing: border-box;
+        }
+
+        .login-header {
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .login-header h1 {
+            margin: 0 0 6px;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .login-header p {
+            margin: 0;
+            color: #5f6b7a;
+        }
+
+        .form-fields {
+            display: grid;
+            gap: 16px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .actions {
+            display: flex;
+            margin-top: 22px;
+        }
+
+        .actions .ui-button {
+            width: 100%;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <main class="page">
+        <section class="login-box">
+            <div class="login-header">
+                <h1>Acesso ao Sistema</h1>
+                <p>Informe sua matricula e senha para continuar.</p>
+            </div>
+
+            <h:form id="formLogin">
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+
+            <div class="form-fields">
+                <div class="field">
+                    <p:outputLabel for="matricula" value="Matricula"/>
+                    <p:inputText id="matricula"
+                                 value="#{loginMbean.matricula}"
+                                 required="true"
+                                 requiredMessage="Matricula e obrigatoria."
+                                 maxlength="30"
+                                 placeholder="Digite sua matricula"
+                                 style="width: 100%"/>
+                    <p:message for="matricula"/>
+                </div>
+
+                <div class="field">
+                    <p:outputLabel for="senha" value="Senha"/>
+                    <p:password id="senha"
+                                value="#{loginMbean.senha}"
+                                required="true"
+                                requiredMessage="Senha e obrigatoria."
+                                feedback="false"
+                                toggleMask="true"
+                                placeholder="Digite sua senha"
+                                style="width: 100%"/>
+                    <p:message for="senha"/>
+                </div>
+            </div>
+
+            <div class="actions">
+                <p:commandButton value="Entrar"
+                                 icon="pi pi-sign-in"
+                                 action="#{loginMbean.validarLogin}"
+                                 update="@form"/>
+            </div>
+            </h:form>
+        </section>
+    </main>
+</h:body>
+</html>
