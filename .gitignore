@@ -19,6 +19,7 @@ target/
 # Configuracoes locais
 .env
 *.local
+CONTEXTO.md
 
 # Smart Tomcat / execucao local
 .smarttomcat/

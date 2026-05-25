@@ -74,8 +74,8 @@
     <main class="page">
         <section class="login-box">
             <div class="login-header">
-                <h1>Acesso ao Sistema</h1>
-                <p>Informe sua matricula e senha para continuar.</p>
+                <h1>Bem vindo ao Trickas CRM</h1>
+                <p:outputText value="Bem vindo ao nosso sistema #{loginMbean.userVO.nome}" />
             </div>
 
             <h:form id="formLogin">
@@ -83,40 +83,7 @@
                 <p:autoUpdate/>
             </p:messages>
 
-            <div class="form-fields">
-                <div class="field">
-                    <p:outputLabel for="matricula" value="Matricula"/>
-                    <p:inputText id="matricula"
-                                 value="#{loginMbean.matricula}"
-                                 required="true"
-                                 requiredMessage="Matricula e obrigatoria."
-                                 maxlength="30"
-                                 placeholder="Digite sua matricula"
-                                 style="width: 100%"/>
-                    <p:message for="matricula"/>
-                </div>
 
-                <div class="field">
-                    <p:outputLabel for="senha" value="Senha"/>
-                    <p:password id="senha"
-                                value="#{loginMbean.senha}"
-                                required="true"
-                                requiredMessage="Senha e obrigatoria."
-                                feedback="false"
-                                toggleMask="true"
-                                placeholder="Digite sua senha"
-                                style="width: 100%"/>
-                    <p:message for="senha"/>
-                </div>
-            </div>
-
-            <div class="actions">
-                //Ao retornar true, direciona para o home.xhtml, caso contrário, permanece na página de login.
-                <p:commandButton value="Entrar"
-                                 icon="pi pi-sign-in"
-                                 action="#{loginMbean.validarLogin}"
-                                 update="@form"/>
-            </div>
             </h:form>
         </section>
     </main>
