@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 import br.com.trikascrm.model.UsuarioVO;
 import br.com.trikascrm.service.Service;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,36 +24,40 @@ public class LoginMbean implements Serializable {
     private String matricula;
     private String senha;
     private UsuarioVO userVO;
+    @Inject
+    private UsuarioSessaoMBean usuarioSessaoMBean;
 
     public LoginMbean(){
         service = new Service();
     }
 
-    public void validarLogin() {
+    public String validarLogin() {
         log.info("Tentativa de login recebida para a matricula: {}", matricula);
         userVO = service.obterUsuario(matricula);
 
         if (userVO == null) {
             log.warn("Login recusado. Usuario nao encontrado para a matricula: {}", matricula);
             showMessageErro("Usuario nao existe.");
-            return;
+            return null;
         }
 
         if (userVO.getSenha() == null || userVO.getSenha().isBlank()) {
             boolean senhaFoiCadastrada  = cadastrarSenha(userVO);
             log.info("senha foi cadastrada com sucesso para o usuario {}",userVO.getNome());
-            return;
+            return null;
         }
 
         boolean senhaCorreta = service.validarSenha(senha, userVO.getSenha());
         if (senhaCorreta) {
+            usuarioSessaoMBean.setUsuarioLogado(userVO);
             log.info("Login realizado com sucesso para a matricula: {}", matricula);
             showMessageSucess("Login realizado com sucesso.");
-            return;
+            return "home?faces-redirect=true";
         }
 
         log.warn("Login recusado. Senha invalida para a matricula: {}", matricula);
         showMessageErro("Matricula ou senha invalidos.");
+        return null;
     }
 
     public boolean cadastrarSenha(UsuarioVO userVO){
@@ -121,5 +127,13 @@ public class LoginMbean implements Serializable {
                 )
         );
 
+    }
+
+    public UsuarioSessaoMBean getUsuarioSessaoMBean() {
+        return usuarioSessaoMBean;
+    }
+
+    public void setUsuarioSessaoMBean(UsuarioSessaoMBean usuarioSessaoMBean) {
+        this.usuarioSessaoMBean = usuarioSessaoMBean;
     }
 }

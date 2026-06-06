@@ -4,6 +4,8 @@ import br.com.trikascrm.database.Repository;
 import br.com.trikascrm.model.UsuarioVO;
 import br.com.trikascrm.security.SenhaUtil;
 
+import java.util.List;
+
 public class Service {
     Repository repository = new Repository();
 
@@ -23,5 +25,9 @@ public class Service {
 
     public boolean validarSenha(String senhaPura, String senhaHash) {
         return SenhaUtil.verificarSenha(senhaPura, senhaHash);
+    }
+
+    public List<UsuarioVO> pesquisarFuncionario(String matricula){
+        return repository.listarFuncionarios(matricula);
     }
 }

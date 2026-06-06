@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="primefaces"
+      xmlns:f="jakarta.faces.core">
+<h:head>
+    <title>Trikas CRM</title>
+    <link rel="icon" type="image/png" href="#{resource['images/office-building.png']}" />
+    <style type="text/css">
+        body {
+            margin: 0px;
+            min-height: 100vh;
+            background: #eef2f6;
+            color: #1f2937;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+    </style>
+</h:head>
+
+<h:body>
+    <center>
+        <!--QUANDO NAO ESTIVER LOGADO ACESSO NEGADO-->
+    <h:form  rendered="#{usuarioSessaoMBean.usuarioLogado==null or usuarioSessaoMBean.usuarioLogado.nome==null}"
+             id="formNegado" style="margin: 20px; padding: 20px; padding-bottom: 60px; background-color: #fff; border-radius: 8px; box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12); width: 40%; max-width: 1000px; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+        <h1>Você não tem acesso a esta página</h1>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <p style="margin: 0;">Favor, logue para conseguir acessar</p>
+            <p:commandButton value="Ir para Login" action="#{usuarioSessaoMBean.logout}" />
+        </div>
+    </h:form>
+    </center>
+
+    <h:form rendered="#{usuarioSessaoMBean.usuarioLogado!=null and usuarioSessaoMBean.usuarioLogado.nome!=null}"
+            id="formHome"
+            style="margin-top: 0px; padding: 20px  20px  0px 20px; background-color: #fff; border-radius: 0px; box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12); display: flex; flex-direction: column; width:100%">
+
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+            <div>
+                <h1 style="margin: 0 0 10px 0;"><span style="font-weight: 700; color: #1e40af; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; letter-spacing: 0.5px;">TrickasCorp</span></h1>
+                <p style="margin: 30px 0 30px 0;">Página de aprendizado para explorar e unificar estudos Java</p>
+            </div>
+            <p:commandButton value="Sair"
+                             action="#{usuarioSessaoMBean.logout}"
+                             icon="pi pi-sign-in"
+                             style="background-color: #ef4444; border: none; color: #fff;   border-radius: 6px;   cursor: pointer; transition: all 0.3s ease;"
+                             onmouseover="this.style.backgroundColor='#dc2626'; this.style.boxShadow='0 4px 12px rgba(239, 68, 68, 0.4)';"
+                             onmouseout="this.style.backgroundColor='#ef4444'; this.style.boxShadow='none';" />
+        </div>
+    </h:form>
+    <h:form id="formMenu" rendered="#{usuarioSessaoMBean.usuarioLogado!=null and usuarioSessaoMBean.usuarioLogado.nome!=null}">
+        <p:menubar hideDaley="1000" autoDisplay="false" >
+            <f:facet name="start">
+                <p:graphicImage name="images/office-building.png"  width="30"
+                                height="30" />
+            </f:facet>
+            <p:submenu label="Funcionários" >
+                <p:menuitem value="Consultar funcionário" outcome="consultarFuncionario" />
+            </p:submenu>
+        </p:menubar>
+    </h:form>
+
+    <h:form id="conteudo" rendered="#{usuarioSessaoMBean.usuarioLogado!=null and usuarioSessaoMBean.usuarioLogado.nome!=null}"
+            style="margin: 20px auto 0; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12); display: flex; flex-direction: column; width: 96%; min-height: 100vh;">
+        <div id="conteudoPrincipal" style="margin-inline : 30px;">
+        <h1 >Consultar Funcionário</h1>
+            <p>Esta é a página de consulta de funcionários. Aqui você pode buscar por funcionários específicos, visualizar detalhes e gerenciar suas informações.</p>
+            <p>Use os filtros abaixo para refinar sua busca ou clique em um funcionário para ver mais detalhes.</p>
+            <br/><br/>
+
+            <h:outputText value="Buscar funcionário:" style="margin-right: 10px; font-weight: 600;" />
+            <div style="display: flex; align-items: center; margin-top: 10px;">
+            <p:inputText placeholder="Matricula" style="width: 300px;" value="#{funcionarioMBean.matriculaPesquisa}" required="true" requiredMessage="Login é necessário" />
+            <p:commandButton icon="pi pi-search" style="margin-left: 10px;" actionListener="#{funcionarioMBean.pesquisarFuncionarioMatricula}" update="panelFuncionarios" />
+            </div>
+
+            <br/><br/>
+            <p:panel id="panelFuncionarios">
+                <p:dataTable value="#{funcionarioMBean.lstFuncionarios}" var="fu"
+                rendered="#{funcionarioMBean.lstFuncionarios != null and not funcionarioMBean.lstFuncionarios.isEmpty()}" paginator="true"   rows="5"
+                             paginatorPosition="bottom"
+                             emptyMessage="Nenhum funcionário encontrado." styleClass="custom-data-table"
+                >
+                    <p:column headerText="MATRICULA" filterBy="#{fu.matricula}" style="text-align: center;">
+                        <h:outputText value="#{fu.matricula}" />
+                    </p:column>
+                    <p:column headerText="NOME"  filterBy="#{fu.nome}" style="text-align: center;">
+                        <h:outputText value="#{fu.nome}" />
+                    </p:column>
+                    <p:column headerText="CARGO" filterBy="#{fu.cargo}" style="text-align: center;">
+                        <h:outputText value="#{fu.cargo}" />
+                    </p:column>
+
+                    <p:column headerText="ADMISSÃO" filterBy="#{fu.created}" style="text-align: center;">
+                        <h:outputText value="#{fu.created}" />
+                    </p:column>
+
+                    <p:column headerText="EMAIL" filterBy="#{fu.email}"  style="text-align: center;">
+                        <h:outputText value="#{fu.email}" />
+                    </p:column>
+                </p:dataTable>
+
+            </p:panel>
+        </div>
+    </h:form>
+</h:body>
+</html>
+
+

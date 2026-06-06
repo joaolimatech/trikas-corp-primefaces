@@ -11,13 +11,12 @@ public final class ConexaoPostgres {
 
     private static final Logger log = LoggerFactory.getLogger(ConexaoPostgres.class);
 
-//    private static final String URL = "jdbc:postgresql://localhost:5432/trikas_db";
-//    private static final String USUARIO = "user_trikas";
-//    private static final String SENHA = "user_trikas";
-    private static final String URL =
-        "jdbc:postgresql://db.ripouszamxoylkbssmkt.supabase.co:5432/postgres?sslmode=require";
-    private static final String USUARIO = "postgres";
-    private static final String SENHA = "blXAec4QhhXgoNTx";
+    private static final String URL = "jdbc:postgresql://localhost:5432/trikas_db";
+    private static final String USUARIO = "user_trikas";
+    private static final String SENHA = "user_trikas";
+//    private static final String URL =  "jdbc:postgresql://db.ripouszamxoylkbssmkt.supabase.co:5432/postgres?sslmode=require";
+//    private static final String USUARIO = "postgres";
+//    private static final String SENHA = "blXAec4QhhXgoNTx";
 
 
     private ConexaoPostgres() {

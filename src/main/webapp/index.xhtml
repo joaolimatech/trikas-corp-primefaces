@@ -3,7 +3,8 @@
       xmlns:h="jakarta.faces.html"
       xmlns:p="primefaces">
 <h:head>
-    <title>Login</title>
+    <title>Trikas CRM</title>
+    <link rel="icon" type="image/png" href="#{resource['images/office-building.png']}" />
     <style type="text/css">
         body {
             margin: 0;
@@ -111,11 +112,11 @@
             </div>
 
             <div class="actions">
-                //Ao retornar true, direciona para o home.xhtml, caso contrário, permanece na página de login.
-                <p:commandButton value="Entrar"
+                <p:commandButton value="Login"
                                  icon="pi pi-sign-in"
                                  action="#{loginMbean.validarLogin}"
-                                 update="@form"/>
+                                 ajax="false"/>
+
             </div>
             </h:form>
         </section>

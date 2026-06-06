@@ -8,6 +8,9 @@ public class UsuarioVO {
      private String senha;
      private String cargo;
      private String perfil;
+     private String telefone;
+     private String created;
+
 
     public String getMatricula() {
         return matricula;
@@ -55,5 +58,21 @@ public class UsuarioVO {
 
     public void setPerfil(String perfil) {
         this.perfil = perfil;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 }
