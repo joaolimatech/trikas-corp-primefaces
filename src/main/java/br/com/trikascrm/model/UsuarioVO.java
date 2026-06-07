@@ -10,7 +10,16 @@ public class UsuarioVO {
      private String perfil;
      private String telefone;
      private String created;
+     private String dataNascimento;
 
+
+    public String getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(String dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
 
     public String getMatricula() {
         return matricula;
@@ -74,5 +83,15 @@ public class UsuarioVO {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    @Override
+    public String toString() {
+        return "UsuarioVO{" +
+                "nome='" + nome + '\'' +
+                ", matricula='" + matricula + '\'' +
+                ", email='" + email + '\'' +
+                ", cargo='" + cargo + '\'' +
+                '}';
     }
 }

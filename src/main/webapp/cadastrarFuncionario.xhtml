@@ -6,7 +6,7 @@
       xmlns:ui="jakarta.faces.facelets">
 <h:head>
     <title>Trikas CRM</title>
-    <link rel="icon" type="image/png" href="#{resource['images/office-building.png']}" />
+    <link rel="icon" type="image/png" href="#{resource['images/office-building.png']}"/>
     <style type="text/css">
         body {
             margin: 0px;
@@ -20,95 +20,106 @@
 </h:head>
 
 <h:body>
-    <ui:include src="verificarAcesso.xhtml" />
+    <ui:include src="/templates/verificarAcesso.xhtml"/>
+    <ui:include src="/templates/header.xhtml"/>
 
-    <h:form rendered="#{usuarioSessaoMBean.usuarioLogado!=null and usuarioSessaoMBean.usuarioLogado.nome!=null}"
-            id="formHome"
-            style="margin-top: 0px; padding: 20px  20px  0px 20px; background-color: #fff; border-radius: 0px; box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12); display: flex; flex-direction: column; width:100%">
+    <ui:include src="/templates/menu.xhtml"/>
 
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
-            <div>
-                <h1 style="margin: 0 0 10px 0;"><span style="font-weight: 700; color: #1e40af; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; letter-spacing: 0.5px;">TrickasCorp</span></h1>
-                <p style="margin: 30px 0 30px 0;">Página de aprendizado para explorar e unificar estudos Java</p>
-            </div>
-            <p:commandButton value="Sair"
-                             action="#{usuarioSessaoMBean.logout}"
-                             icon="pi pi-sign-in"
-                             style="background-color: #ef4444; border: none; color: #fff;   border-radius: 6px;   cursor: pointer; transition: all 0.3s ease;"
-                             onmouseover="this.style.backgroundColor='#dc2626'; this.style.boxShadow='0 4px 12px rgba(239, 68, 68, 0.4)';"
-                             onmouseout="this.style.backgroundColor='#ef4444'; this.style.boxShadow='none';" />
-        </div>
-    </h:form>
-    <ui:include src="menu.xhtml" />
-
-    <h:form id="conteudo" rendered="#{usuarioSessaoMBean.usuarioLogado!=null and usuarioSessaoMBean.usuarioLogado.nome!=null}"
+    <h:form id="conteudo"
+            rendered="#{usuarioSessaoMBean.usuarioLogado!=null and usuarioSessaoMBean.usuarioLogado.nome!=null and usuarioSessaoMBean.usuarioLogado.perfil eq 'ADMIN'}"
             style="margin: 20px auto 0; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12); display: flex; flex-direction: column; width: 96%; min-height: 100vh;">
         <div id="conteudoPrincipal" style="margin-inline : 30px;">
-        <h2 >Cadastrar Funcionário (Em desenvolvimento)</h2>
-            <p>Esta é a página de cadastro de funcionários. Aqui você pode adicionar novos funcionários, preencher suas informações e gerenciar seus dados.</p>
-            <p>Preencha o formulário abaixo para cadastrar um novo funcionário. Certifique-se de fornecer informações precisas e completas para garantir um cadastro eficaz.</p>
+            <p:messages id="msg4" showDetail="true" autoUpdate="true" closable="true"/>
+            <h2>Cadastrar Funcionário (Em desenvolvimento)</h2>
+            <p>Esta é a página de cadastro de funcionários. Aqui você pode adicionar novos funcionários, preencher suas
+                informações e gerenciar seus dados.</p>
+            <p>Preencha o formulário abaixo para cadastrar um novo funcionário. Certifique-se de fornecer informações
+                precisas e completas para garantir um cadastro eficaz.</p>
 
             <br/><br/>
 
-            <h:outputText value="Buscar funcionário:" style="margin-right: 10px; font-weight: 600;" />
-            <div style="display: flex; align-items: center; margin-top: 10px;">
-            <p:inputText placeholder="Matricula" style="width: 300px;" value="#{funcionarioMBean.matriculaPesquisa}" required="true" requiredMessage="Login é necessário" />
-            <p:commandButton icon="pi pi-search" style="margin-left: 10px;" actionListener="#{funcionarioMBean.pesquisarFuncionarioMatricula}"   process="@form" update="conteudo" />
+            <div style="display: flex; gap: 20px; margin-top: 10px;">
+
+                <div style="display: flex; flex-direction: column;">
+                    <h:outputText value="Matricula:"
+                                  style="font-weight: 600; margin-bottom: 5px;"/>
+
+                    <p:inputText placeholder="A0XXXXXX"
+                                 style="width: 15rem;"
+                                 value="#{funcionarioMBean.usuarioGenericoVO.matricula}"
+                                 required="true" maxlength="8" minlength="8"
+                                 requiredMessage="Matricula é necessária"/>
+                </div>
+
+                <div style="display: flex; flex-direction: column;margin-left: 5rem;">
+                    <h:outputText value="Nome funcionário:"
+                                  style="font-weight: 600; margin-bottom: 5px;"/>
+
+                    <p:inputText placeholder="Nome"
+                                 style="width: 15rem;"
+                                 value="#{funcionarioMBean.usuarioGenericoVO.nome}"
+                                 required="true"
+                                 requiredMessage="Nome é necessário"/>
+                </div>
+
+                <div style="display: flex; flex-direction: column; margin-left: 5rem;">
+                    <h:outputText value="Telefone:"
+                                  style="font-weight: 600; margin-bottom: 5px;"/>
+
+                    <p:inputText placeholder="Telefone"
+                                 style="width: 15rem;"
+                                 value="#{funcionarioMBean.usuarioGenericoVO.telefone}"
+                                 required="true"
+                                 requiredMessage="Telefone é necessário"/>
+                </div>
+
+            </div>
+
+            <div style="display: flex; gap: 20px; margin-top: 4rem;">
+
+                <div style="display: flex; flex-direction: column;">
+
+                    <h:outputText value="Cargo:"
+                                  style="font-weight: 600; margin-bottom: 5px;"/>
+                    <p:autoComplete id="acSimple" value="#{funcionarioMBean.txt1}"
+                                    completeMethod="#{funcionarioMBean.completeText}" scrollHeight="250"
+                                    style="width: 15rem;"
+                    />
+
+                </div>
+
+                <div style="display: flex; flex-direction: column; margin-left: 5rem;">
+                    <h:outputText value="Nascimento:" style="font-weight: 600; margin-bottom: 5px;"/>
+                    <p:datePicker id="navigator" value="#{funcionarioMBean.date1}" monthNavigator="true"
+                                  yearNavigator="true" showWeek="true"/>
+
+                </div>
             </div>
 
             <br/><br/>
-            <p:panel id="panelFuncionarios" styleClass="ui-panel-shadow"  rendered="#{funcionarioMBean.renderConsultaFuncionarios}">
+            <p:commandButton value="Cadastrar" actionListener="#{funcionarioMBean.cadastrarFuncionario}"
+                             onmouseover="this.style.backgroundColor='#dc2626'; this.style.boxShadow='0 4px 12px rgba(239, 68, 68, 0.4)';"
+                             onmouseout="this.style.backgroundColor='#ef4444'; this.style.boxShadow='none';"
+                             update="@form"/>
+
+            <br/><br/>
+            <p:panel id="panelFuncionarios" styleClass="ui-panel-shadow"
+                     rendered="#{funcionarioMBean.renderConsultaFuncionarios}">
                 <f:facet name="header">
                     <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;">
                         <div>
                             <div style="font-size:18px; font-weight:700; color:#1f2937;">Funcionários encontrados</div>
-                            <div style="font-size:13px; color:#6b7280; margin-top:4px;">Consulta com filtros, ordenação e navegação paginada.</div>
+                            <div style="font-size:13px; color:#6b7280; margin-top:4px;">Consulta com filtros, ordenação
+                                e navegação paginada.
+                            </div>
                         </div>
                         <div style="display:flex; align-items:center; gap:10px;">
                             <p:tag value="#{empty funcionarioMBean.lstFuncionarios ? '0 registros' : funcionarioMBean.lstFuncionarios.size().toString().concat(' registros')}"
-                                   severity="info" />
+                                   severity="info"/>
                         </div>
                     </div>
                 </f:facet>
 
-                <p:dataTable id="tblFuncionarios"
-                             value="#{funcionarioMBean.lstFuncionarios}"
-                             var="fu"
-                             rendered="#{funcionarioMBean.lstFuncionarios != null and not funcionarioMBean.lstFuncionarios.isEmpty()}"
-                             paginator="true"
-                             rows="10"
-                             rowsPerPageTemplate="5,10,20,50"
-                             paginatorPosition="bottom"
-                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords}"
-                             emptyMessage="Nenhum funcionário encontrado."
-                             stripedRows="true"
-                             rowHover="true"
-                             responsiveLayout="scroll"
-                             showGridlines="true"
-                             styleClass="p-datatable-sm custom-data-table">
-                    <p:column headerText="Matrícula" sortBy="#{fu.matricula}" filterBy="#{fu.matricula}" filterMatchMode="contains"
-                              style="width:140px; text-align:center;">
-                        <h:outputText value="#{fu.matricula}" />
-                    </p:column>
-
-                    <p:column headerText="Nome" sortBy="#{fu.nome}" filterBy="#{fu.nome}" filterMatchMode="contains">
-                        <h:outputText value="#{fu.nome}" />
-                    </p:column>
-
-                    <p:column headerText="Cargo" sortBy="#{fu.cargo}" filterBy="#{fu.cargo}" filterMatchMode="contains"
-                              style="width:180px;">
-                        <h:outputText value="#{fu.cargo}" />
-                    </p:column>
-
-                    <p:column headerText="Admissão" sortBy="#{fu.created}" style="width:140px; text-align:center;">
-                        <h:outputText value="#{fu.created}" />
-                    </p:column>
-
-                    <p:column headerText="E-mail" sortBy="#{fu.email}" filterBy="#{fu.email}" filterMatchMode="contains">
-                        <h:outputText value="#{fu.email}" />
-                    </p:column>
-                </p:dataTable>
             </p:panel>
         </div>
     </h:form>
