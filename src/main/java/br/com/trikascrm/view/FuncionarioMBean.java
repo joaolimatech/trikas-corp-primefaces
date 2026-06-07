@@ -36,6 +36,7 @@ public class FuncionarioMBean implements Serializable {
     private UsuarioSessaoMBean usuarioSessaoMBean;
     private List<UsuarioVO> lstFuncionarios;
     private String matriculaPesquisa;
+    private boolean renderConsultaFuncionarios;
 
     public void pesquisarFuncionarioMatricula(){
         if(matriculaPesquisa!=null && !matriculaPesquisa.trim().isEmpty()){
@@ -46,6 +47,8 @@ public class FuncionarioMBean implements Serializable {
             if(CollectionUtils.isEmpty(lstFuncionarios)){
                showMessageErro("Nenhum funcionario encontrado para a matricula: " + matriculaPesquisa);
                return;
+            } else {
+                renderConsultaFuncionarios = !CollectionUtils.isEmpty(lstFuncionarios);
             }
 
         }
@@ -107,5 +110,13 @@ public class FuncionarioMBean implements Serializable {
 
     public void setMatriculaPesquisa(String matriculaPesquisa) {
         this.matriculaPesquisa = matriculaPesquisa;
+    }
+
+    public boolean isRenderConsultaFuncionarios() {
+        return renderConsultaFuncionarios;
+    }
+
+    public void setRenderConsultaFuncionarios(boolean renderConsultaFuncionarios) {
+        this.renderConsultaFuncionarios = renderConsultaFuncionarios;
     }
 }
